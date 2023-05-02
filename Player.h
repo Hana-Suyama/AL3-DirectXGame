@@ -3,11 +3,17 @@
 #include "WorldTransform.h"
 #include <Input.h>
 #include <PlayerBullet.h>
+#include <list>
 /// <summary>
 /// 自キャラ
 /// </summary>
 class Player {
 public:
+	/// <summary>
+	/// デクストラクタ
+	/// </summary>
+	~Player();
+	
 	/// <summary>
 	/// 初期化
 	/// </summary>
@@ -45,6 +51,9 @@ private:
 	uint32_t textureHandle_ = 0u;
 	//キーボード入力
 	Input* input_ = nullptr;
-	PlayerBullet* bullet_ = nullptr;
+	//PlayerBullet* bullet_ = nullptr;
+
+	//弾
+	std::list<PlayerBullet*> bullets_;
 
 };

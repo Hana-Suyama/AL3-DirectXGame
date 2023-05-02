@@ -3,6 +3,13 @@
 #include <MyMath.h>
 #include "ImGuiManager.h"
 
+Player::~Player() {
+	//bullet_の解放
+	for (PlayerBullet* bullet : bullets_) {
+		delete bullet;
+	}
+}
+
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	//NULLポインタチェック
 	assert(model);
@@ -54,8 +61,8 @@ void Player::Update() {
 	Attack();
 
 	//弾更新
-	if (bullet_) {
-		bullet_->Update();
+	for (PlayerBullet* bullet : bullets_) {
+		bullet->Update();
 	}
 
 	//行列更新
@@ -72,8 +79,8 @@ void Player::Draw(ViewProjection& viewProjection_) {
 	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
 
 	//弾描画
-	if (bullet_) {
-		bullet_->Draw(viewProjection_);
+	for (PlayerBullet* bullet : bullets_) {
+		bullet->Draw(viewProjection_);
 	}
 }
 
@@ -101,6 +108,6 @@ void Player::Attack() {
 		newBullet->Initialize(model_, worldTransform_.translation_);
 
 		//弾を登録
-		bullet_ = newBullet;
+		bullets_.push_back(newBullet);
 	}
 }
