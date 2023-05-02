@@ -22,6 +22,15 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 
 void Player::Update() {
 
+	//デスフラグの立った弾を削除
+	bullets_.remove_if([](PlayerBullet* bullet) { 
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+	});
+
 	//キャラクターの移動ベクトル
 	Vector3 move = {0, 0, 0};
 
@@ -102,10 +111,17 @@ void Player::Rotate() {
 
 void Player::Attack() {
 	if (input_->PushKey(DIK_SPACE)) {
+
+		//弾の速度
+		const float kBulletSpeed = 1.0f;
+		Vector3 velocity(0, 0, kBulletSpeed);
 		
+		//速度ベクトルを自機の向きに合わせて回転させる
+		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
+
 		//弾を生成し、初期化
 		PlayerBullet* newBullet = new PlayerBullet();
-		newBullet->Initialize(model_, worldTransform_.translation_);
+		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
 
 		//弾を登録
 		bullets_.push_back(newBullet);
