@@ -24,6 +24,9 @@ public:
 	/// <param name="viewProjection">ビュープロジェクション</param>
 	void Draw(const ViewProjection& viewProjection);
 
+	void PhaseApproach();
+	void PhaseLeave();
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -33,4 +36,13 @@ private:
 	uint32_t textureHandle_ = 0u;
 	// 速度
 	Vector3 velocity_;
+	Vector3 leaveVelocity_ = {1, 1, 0};
+	//行動フェーズ
+	enum class Phase {
+		Approach,	//接近する
+		Leave,		//離脱する
+	};
+	//フェーズ
+	Phase phase_ = Phase::Approach;
+
 };
