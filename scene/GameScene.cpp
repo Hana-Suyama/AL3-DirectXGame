@@ -2,6 +2,7 @@
 #include "TextureManager.h"
 #include <cassert>
 #include "AxisIndicator.h"
+#include <Enemy.h>
 
 GameScene::GameScene() {}
 
@@ -39,11 +40,20 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetVisible(true);
 	//軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
+
+	// 弾を生成し、初期化
+	enemy_ = new Enemy();
+	enemy_->Initialize(model_, {0, 10, 100}, {0,0,-1});
 }
 
 void GameScene::Update() {
 	// 自キャラの更新
 	player_->Update();
+
+	// NULLポインタチェック
+	assert(enemy_);
+	enemy_->Update();
+
 	// デバッグカメラの更新
 	debugCamera_->Update();
 #ifdef _DEBUG
@@ -95,6 +105,11 @@ void GameScene::Draw() {
 	/// </summary>
 	//自キャラの描画
 	player_->Draw(viewProjection_);
+
+	// NULLポインタチェック
+	assert(enemy_);
+	enemy_->Draw(viewProjection_);
+
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
