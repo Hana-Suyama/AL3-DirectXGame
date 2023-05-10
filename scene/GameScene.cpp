@@ -43,7 +43,7 @@ void GameScene::Initialize() {
 
 	// 弾を生成し、初期化
 	enemy_ = new Enemy();
-	enemy_->Initialize(model_, {0, 10, 100}, {0,0,-1});
+	enemy_->Initialize(model_, {20, 10, 100}, {0,0,-0.1f});
 }
 
 void GameScene::Update() {
