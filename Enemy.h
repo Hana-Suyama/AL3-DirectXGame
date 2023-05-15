@@ -3,6 +3,10 @@
 #include <WorldTransform.h>
 #include <EnemyBullet.h>
 #include <list>
+
+//自機クラスの前方宣言
+class Player;
+
     /// <summary>
 /// 敵
 /// </summary>
@@ -40,10 +44,16 @@ public:
 	/// </summary>
 	void Fire();
 
+	//ワールド座標を取得
+	Vector3 GetWorldPosition();
+
 	void PhaseApproach();
 	void PhaseLeave();
 
 	void PhaseApproachInitialize();
+
+	void SetPlayer(Player* player) { player_ = player; }
+	void SetPlayerPos(Vector3 playerPos) { playerPos_ = playerPos; }
 
 	static const int kFireInterval = 60;
 
@@ -55,7 +65,7 @@ private:
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 	// 速度
-	Vector3 velocity_;
+	Vector3 velocity_ = {0, 0, 0};
 	Vector3 leaveVelocity_ = {1, 1, 0};
 	//発射タイマー
 	int32_t FireTimer = 0;
@@ -69,5 +79,9 @@ private:
 
 	// 弾
 	std::list<EnemyBullet*> bullets_;
+
+	// 自キャラ
+	Player* player_ = nullptr;
+	Vector3 playerPos_{};
 
 };

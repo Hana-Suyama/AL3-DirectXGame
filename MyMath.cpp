@@ -301,10 +301,41 @@ Vector3 Vec3Addition(Vector3& a, Vector3& b) {
 	return result;
 }
 
+Vector3 Vec3Subtraction(Vector3& a, Vector3& b) {
+	Vector3 result{};
+	result.x = a.x - b.x;
+	result.y = a.y - b.y;
+	result.z = a.z - b.z;
+	return result;
+}
+
+Vector3 Vec3Multiplication(Vector3& a, Vector3& b) {
+	Vector3 result{};
+	result.x = a.x * b.x;
+	result.y = a.y * b.y;
+	result.z = a.z * b.z;
+	return result;
+}
+
 Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m) {
 	Vector3 result{
 	    v.x * m.m[0][0] + v.y * m.m[1][0] + v.z * m.m[2][0],
 	    v.x * m.m[0][1] + v.y * m.m[1][1] + v.z * m.m[2][1],
 	    v.x * m.m[0][2] + v.y * m.m[1][2] + v.z * m.m[2][2]};
+	return result;
+}
+
+Vector3 Normalize(Vector3& a) {
+
+	Vector3 result;
+
+	float length = sqrtf(a.x * a.x + a.y * a.y + a.z * a.z);
+
+	if (length != 0.0f) {
+		result.x = a.x / length;
+		result.y = a.y / length;
+		result.z = a.z / length;
+	}
+
 	return result;
 }

@@ -44,11 +44,16 @@ void GameScene::Initialize() {
 	// 弾を生成し、初期化
 	enemy_ = new Enemy();
 	enemy_->Initialize(model_, {20, 10, 100}, {0,0,-0.1f});
+
+	//敵キャラに自キャラのアドレスを渡す
+	enemy_->SetPlayer(player_);
+
 }
 
 void GameScene::Update() {
 	// 自キャラの更新
 	player_->Update();
+	enemy_->SetPlayerPos(player_->GetWorldPosition());
 
 	// NULLポインタチェック
 	assert(enemy_);

@@ -96,12 +96,18 @@ void Enemy::Attack() {
 }
 
 void Enemy::Fire() {
-	// 弾の速度
-	const float kBulletSpeed = -2.0f;
-	Vector3 velocity(0, 0, kBulletSpeed);
+	assert(player_);
 
-	// 速度ベクトルを自機の向きに合わせて回転させる
-	velocity = TransformNormal(velocity, worldTransform_.matWorld_);
+	// 弾の速度
+	const float kBulletSpeed = 1.0f;
+	Vector3 velocity(kBulletSpeed, kBulletSpeed, kBulletSpeed);
+
+	Vector3 PlayerPos = playerPos_;
+	Vector3 EnemyPos = GetWorldPosition();
+	Vector3 Length = Vec3Subtraction(PlayerPos, EnemyPos);
+	Vector3 NormalizeLength = Normalize(Length);
+	velocity = Vec3Multiplication(NormalizeLength, velocity);
+
 
 	// 弾を生成し、初期化
 	EnemyBullet* newBullet = new EnemyBullet();
@@ -114,4 +120,15 @@ void Enemy::Fire() {
 void Enemy::PhaseApproachInitialize() {
 	//発射タイマーを初期化
 	FireTimer = kFireInterval;
+}
+
+Vector3 Enemy::GetWorldPosition() {
+	//ワールド座標を入れる変数
+	Vector3 worldPos;
+	//ワールド行列の平行移動成分を取得(ワールド座標)
+	worldPos.x = worldTransform_.translation_.x;
+	worldPos.y = worldTransform_.translation_.y;
+	worldPos.z = worldTransform_.translation_.z;
+
+	return worldPos;
 }
