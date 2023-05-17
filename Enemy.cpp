@@ -97,7 +97,7 @@ void Enemy::Attack() {
 
 void Enemy::Fire() {
 	assert(player_);
-
+	
 	// 弾の速度
 	const float kBulletSpeed = 1.0f;
 	Vector3 velocity(kBulletSpeed, kBulletSpeed, kBulletSpeed);
@@ -107,7 +107,6 @@ void Enemy::Fire() {
 	Vector3 Length = Vec3Subtraction(PlayerPos, EnemyPos);
 	Vector3 NormalizeLength = Normalize(Length);
 	velocity = Vec3Multiplication(NormalizeLength, velocity);
-
 
 	// 弾を生成し、初期化
 	EnemyBullet* newBullet = new EnemyBullet();
@@ -124,11 +123,15 @@ void Enemy::PhaseApproachInitialize() {
 
 Vector3 Enemy::GetWorldPosition() {
 	//ワールド座標を入れる変数
-	Vector3 worldPos;
+	Vector3 worldPos{};
 	//ワールド行列の平行移動成分を取得(ワールド座標)
 	worldPos.x = worldTransform_.translation_.x;
 	worldPos.y = worldTransform_.translation_.y;
 	worldPos.z = worldTransform_.translation_.z;
 
 	return worldPos;
+}
+
+void Enemy::OnCollision() {
+
 }

@@ -44,9 +44,6 @@ public:
 	/// </summary>
 	void Fire();
 
-	//ワールド座標を取得
-	Vector3 GetWorldPosition();
-
 	void PhaseApproach();
 	void PhaseLeave();
 
@@ -56,6 +53,14 @@ public:
 	void SetPlayerPos(Vector3 playerPos) { playerPos_ = playerPos; }
 
 	static const int kFireInterval = 60;
+
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	void OnCollision();
+
+	// 弾リストを取得
+	const std::list<EnemyBullet*>& GetBullets() { return bullets_; }
 
 private:
 	// ワールド変換データ

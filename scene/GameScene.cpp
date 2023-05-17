@@ -59,6 +59,8 @@ void GameScene::Update() {
 	assert(enemy_);
 	enemy_->Update();
 
+	CheckAllCollisions();
+
 	// デバッグカメラの更新
 	debugCamera_->Update();
 #ifdef _DEBUG
@@ -132,4 +134,65 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void GameScene::CheckAllCollisions() {
+	//判定対象AとBの座標
+	Vector3 posA, posB;
+
+	//自弾リストの取得
+	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
+	//敵弾リストの取得
+	const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
+
+	#pragma region 自キャラと敵弾の当たり判定
+	//自キャラの座標
+	posA = player_->GetWorldPosition();
+
+	// 自キャラと敵弾全ての当たり判定
+	for (EnemyBullet* bullet : enemyBullets) {
+		    posB = bullet->GetWorldPosition();
+		    if ((powf(posB.x - posA.x, 2) + powf(posB.y - posA.y, 2) + powf(posB.z - posA.z, 2)) <= powf(2 + 2, 2)) {
+			// 自キャラの衝突時コールバックを呼び出す
+			player_->OnCollision();
+			// 敵弾の衝突時コールバックを呼び出す
+			bullet->OnCollision();
+		    }
+	}
+
+	#pragma endregion
+
+	#pragma region 自弾と敵キャラの当たり判定
+	// 自キャラの座標
+	posA = enemy_->GetWorldPosition();
+
+	// 自キャラと敵弾全ての当たり判定
+	for (PlayerBullet* bullet : playerBullets) {
+		    posB = bullet->GetWorldPosition();
+		    if ((powf(posB.x - posA.x, 2) + powf(posB.y - posA.y, 2) + powf(posB.z - posA.z, 2)) <= powf(2 + 2, 2)) {
+			// 自キャラの衝突時コールバックを呼び出す
+			enemy_->OnCollision();
+			// 敵弾の衝突時コールバックを呼び出す
+			bullet->OnCollision();
+		    }
+	}
+	#pragma endregion
+
+	#pragma region 自弾と敵弾の当たり判定
+
+	// 自キャラと敵弾全ての当たり判定
+	for (PlayerBullet* playerBullet : playerBullets) {
+		for (EnemyBullet* enemyBullet : enemyBullets) {
+			posA = enemyBullet->GetWorldPosition();
+			posB = playerBullet->GetWorldPosition();
+			if ((powf(posB.x - posA.x, 2) + powf(posB.y - posA.y, 2) + powf(posB.z - posA.z, 2)) <=
+			    powf(2 + 2, 2)) {
+				// 自キャラの衝突時コールバックを呼び出す
+				enemyBullet->OnCollision();
+				// 敵弾の衝突時コールバックを呼び出す
+				playerBullet->OnCollision();
+			}
+		}
+	}
+	#pragma endregion
 }
