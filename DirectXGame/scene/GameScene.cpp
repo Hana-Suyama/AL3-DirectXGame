@@ -179,14 +179,13 @@ void GameScene::CheckAllCollisions() {
 	#pragma endregion
 
 	#pragma region 自弾と敵弾の当たり判定
-
+	
 	// 自キャラと敵弾全ての当たり判定
 	for (PlayerBullet* playerBullet : playerBullets) {
 		for (EnemyBullet* enemyBullet : enemyBullets) {
 			posA = enemyBullet->GetWorldPosition();
 			posB = playerBullet->GetWorldPosition();
-			if ((powf(posB.x - posA.x, 2) + powf(posB.y - posA.y, 2) + powf(posB.z - posA.z, 2)) <=
-			    powf(2 + 2, 2)) {
+			if ((powf(posB.x - posA.x, 2) + powf(posB.y - posA.y, 2) + powf(posB.z - posA.z, 2)) <= powf(2 + 2, 2)) {
 				// 自キャラの衝突時コールバックを呼び出す
 				enemyBullet->OnCollision();
 				// 敵弾の衝突時コールバックを呼び出す
