@@ -327,7 +327,7 @@ Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m) {
 
 Vector3 Normalize(Vector3& a) {
 
-	Vector3 result;
+	Vector3 result{};
 
 	float length = sqrtf(a.x * a.x + a.y * a.y + a.z * a.z);
 

@@ -11,6 +11,10 @@ GameScene::~GameScene() {
 	//自キャラの解放
 	delete player_;
 
+	//天球の開放
+	delete skydome_;
+	delete modelSkydome_;
+
 	delete debugCamera_;
 }
 
@@ -24,6 +28,7 @@ void GameScene::Initialize() {
 	textureHandle_ = TextureManager::Load("computer_typing_hayai.png");
 	//3Dモデルの生成
 	model_ = Model::Create();
+	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
@@ -32,6 +37,11 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	//自キャラの初期化
 	player_->Initialize(model_, textureHandle_);
+
+	//天球の生成
+	skydome_ = new Skydome();
+	//天球の初期化
+	skydome_->Initialize(modelSkydome_);
 
 	//デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
@@ -54,6 +64,9 @@ void GameScene::Update() {
 	// 自キャラの更新
 	player_->Update();
 	enemy_->SetPlayerPos(player_->GetWorldPosition());
+
+	//天球の更新
+	skydome_->Update();
 
 	// NULLポインタチェック
 	assert(enemy_);
@@ -112,6 +125,9 @@ void GameScene::Draw() {
 	/// </summary>
 	//自キャラの描画
 	player_->Draw(viewProjection_);
+
+	//天球の描画
+	skydome_->Draw(viewProjection_);
 
 	// NULLポインタチェック
 	assert(enemy_);

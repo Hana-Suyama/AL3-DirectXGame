@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include <DebugCamera.h>
+#include <Skydome.h>
 
 /// <summary>
 /// ゲームシーン
@@ -67,6 +68,11 @@ private: // メンバ変数
 
 	//敵
 	Enemy* enemy_ = nullptr;
+
+	//天球
+	Skydome* skydome_ = nullptr;
+	//3Dモデル
+	Model* modelSkydome_ = nullptr;
 
 	//デバッグカメラ有効
 	bool isDebugCameraActive_ = false;
