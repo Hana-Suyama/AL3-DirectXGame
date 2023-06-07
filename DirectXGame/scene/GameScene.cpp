@@ -15,6 +15,9 @@ GameScene::~GameScene() {
 	delete skydome_;
 	delete modelSkydome_;
 
+	//レールカメラの開放
+	delete railCamera_;
+
 	delete debugCamera_;
 }
 
@@ -33,15 +36,27 @@ void GameScene::Initialize() {
 	//ビュープロジェクションの初期化
 	viewProjection_.Initialize();
 
+	//ワールドトランスフォームの初期化
+	worldTransform_.Initialize();
+
 	//自キャラの生成
 	player_ = new Player();
 	//自キャラの初期化
-	player_->Initialize(model_, textureHandle_);
+	Vector3 playerPosition(0, 0, 10);
+	player_->Initialize(model_, textureHandle_, playerPosition);
 
 	//天球の生成
 	skydome_ = new Skydome();
 	//天球の初期化
 	skydome_->Initialize(modelSkydome_);
+
+	//レールカメラの生成
+	railCamera_ = new RailCamera();
+	//レールカメラの初期化
+	railCamera_->Initialize(worldTransform_.translation_, worldTransform_.rotation_);
+
+	//自キャラとレールカメラの親子関係を結ぶ
+	player_->SetParent(&railCamera_->GetWorldTransform());
 
 	//デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
@@ -68,6 +83,9 @@ void GameScene::Update() {
 	//天球の更新
 	skydome_->Update();
 
+	//レールカメラの更新
+	railCamera_->Update();
+
 	// NULLポインタチェック
 	assert(enemy_);
 	enemy_->Update();
@@ -85,6 +103,7 @@ void GameScene::Update() {
 		}
 	}
 #endif
+
 		// カメラの処理
 		if (isDebugCameraActive_) {
 			viewProjection_.matView = debugCamera_->GetViewProjection().matView;
@@ -95,6 +114,11 @@ void GameScene::Update() {
 			//ビュープロジェクション行列の更新と転送
 			viewProjection_.UpdateMatrix();
 		}
+
+		viewProjection_.matView = railCamera_->GetViewProjection().matView;
+	    viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
+	    viewProjection_.TransferMatrix();
+
 	}
 
 void GameScene::Draw() {

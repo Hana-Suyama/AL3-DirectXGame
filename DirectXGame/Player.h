@@ -19,7 +19,7 @@ public:
 	/// </summary>
 	/// <param name ="model">モデル</param>
 	/// <param name="textureHandle">テクスチャハンドル</param>
-	void Initialize(Model* model, uint32_t textureHandle);
+	void Initialize(Model* model, uint32_t textureHandle, Vector3 pos);
 
 	/// <summary>
 	/// 更新
@@ -50,6 +50,12 @@ public:
 
 	//弾リストを取得
 	const std::list<PlayerBullet*>& GetBullets() { return bullets_; }
+
+	/// <summary>
+	/// 親となるワールドトランスフォームをセット
+	/// </summary>
+	///	<param name="parent">親となるワールドトランスフォーム</param>
+	void SetParent(const WorldTransform* parent);
 
 private:
 	//ワールド変換データ
