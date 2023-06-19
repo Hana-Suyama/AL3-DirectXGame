@@ -6,8 +6,10 @@
 
 //自機クラスの前方宣言
 class Player;
+//GameSceneの前方宣言(苦肉の策)
+class GameScene;
 
-    /// <summary>
+/// <summary>
 /// 敵
 /// </summary>
 class Enemy {
@@ -43,6 +45,8 @@ public:
 	/// 発射処理
 	/// </summary>
 	void Fire();
+	
+	bool IsDead() const { return isDead_; }
 
 	void PhaseApproach();
 	void PhaseLeave();
@@ -58,9 +62,11 @@ public:
 	Vector3 GetWorldPosition();
 
 	void OnCollision();
+	
+	// ゲームシーン
+	GameScene* gameScene_ = nullptr;
 
-	// 弾リストを取得
-	const std::list<EnemyBullet*>& GetBullets() { return bullets_; }
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
 private:
 	// ワールド変換データ
@@ -82,11 +88,11 @@ private:
 	//フェーズ
 	Phase phase_ = Phase::Approach;
 
-	// 弾
-	std::list<EnemyBullet*> bullets_;
-
 	// 自キャラ
 	Player* player_ = nullptr;
 	Vector3 playerPos_{};
+
+	// デスフラグ
+	bool isDead_ = false;
 
 };
