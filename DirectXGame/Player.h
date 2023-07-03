@@ -4,6 +4,7 @@
 #include <Input.h>
 #include <PlayerBullet.h>
 #include <list>
+#include <Sprite.h>
 /// <summary>
 /// 自キャラ
 /// </summary>
@@ -24,13 +25,18 @@ public:
 	/// <summary>
 	/// 更新
 	/// </summary>
-	void Update();
+	void Update(ViewProjection viewProjection);
 	
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="viewProjection">ビュープロジェクション(参照渡し)</param>
 	void Draw(ViewProjection& viewProjection_);
+
+	/// <summary>
+	/// UI描画
+	/// </summary>
+	void DrawUI();
 
 	/// <summary>
 	/// 回転
@@ -44,6 +50,7 @@ public:
 
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
+	Vector3 GetReticleWorldPosition();
 
 	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
@@ -60,6 +67,8 @@ public:
 private:
 	//ワールド変換データ
 	WorldTransform worldTransform_;
+	//3Dレティクル用ワールドトランスフォーム
+	WorldTransform worldTransform3DReticle_;
 	//モデル
 	Model* model_ = nullptr;
 	//テクスチャハンドル
@@ -67,6 +76,8 @@ private:
 	//キーボード入力
 	Input* input_ = nullptr;
 	//PlayerBullet* bullet_ = nullptr;
+	//2Dレティクル用スプライト
+	Sprite* sprite2DReticle_ = nullptr;
 
 	//弾
 	std::list<PlayerBullet*> bullets_;

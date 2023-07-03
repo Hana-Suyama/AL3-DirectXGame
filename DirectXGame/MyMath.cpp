@@ -301,6 +301,14 @@ Vector3 Vec3Addition(Vector3& a, Vector3& b) {
 	return result;
 }
 
+Vector3 Vec3Addition(const Vector3& a, Vector3& b) {
+	Vector3 result{};
+	result.x = a.x + b.x;
+	result.y = a.y + b.y;
+	result.z = a.z + b.z;
+	return result;
+}
+
 Vector3 Vec3Subtraction(Vector3& a, Vector3& b) {
 	Vector3 result{};
 	result.x = a.x - b.x;
@@ -314,6 +322,14 @@ Vector3 Vec3Multiplication(Vector3& a, Vector3& b) {
 	result.x = a.x * b.x;
 	result.y = a.y * b.y;
 	result.z = a.z * b.z;
+	return result;
+}
+
+Vector3 Vec3FloatMultiplication(const Vector3& a, const float& b) { 
+	Vector3 result{};
+	result.x = a.x * b;
+	result.y = a.y * b;
+	result.z = a.z * b;
 	return result;
 }
 
@@ -337,5 +353,19 @@ Vector3 Normalize(Vector3& a) {
 		result.z = a.z / length;
 	}
 
+	return result;
+}
+
+// 3. ビューポート変換行列
+Matrix4x4 MakeViewportMatrix(
+    float left, float top, float width, float height, float minDepth, float maxDepth) {
+	Matrix4x4 result{};
+	result.m[0][0] = width / 2;
+	result.m[1][1] = -(height / 2);
+	result.m[2][2] = maxDepth - minDepth;
+	result.m[3][0] = left + (width / 2);
+	result.m[3][1] = top + (height / 2);
+	result.m[3][2] = minDepth;
+	result.m[3][3] = 1;
 	return result;
 }

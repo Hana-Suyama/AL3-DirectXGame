@@ -45,6 +45,9 @@ void GameScene::Initialize() {
 	//ワールドトランスフォームの初期化
 	worldTransform_.Initialize();
 
+	//レティクルのテクスチャ
+	TextureManager::Load("Reticle.png");
+
 	//自キャラの生成
 	player_ = new Player();
 	//自キャラの初期化
@@ -111,7 +114,7 @@ void GameScene::Update() {
 	}
 
 	// 自キャラの更新
-	player_->Update();
+	player_->Update(viewProjection_);
 	for (Enemy* enemy : enemy_) {
 		enemy->SetPlayerPos(player_->GetWorldPosition());
 	}
@@ -236,6 +239,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
+
+	player_->DrawUI();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

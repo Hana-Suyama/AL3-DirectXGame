@@ -48,11 +48,21 @@ Matrix4x4 MakeRotateZMatrix(float radian);
 
 Matrix4x4 MakeAffineMatrix(const Vector3& scale, const Vector3& rotate, const Vector3& translate);
 
-Vector3 Vec3Addition(Vector3& a, Vector3& b);
+// 3. ビューポート変換行列
+Matrix4x4 MakeViewportMatrix(float left, float top, float width, float height, float minDepth, float maxDepth);
 
+//Vector3同士の加算
+Vector3 Vec3Addition(Vector3& a, Vector3& b);
+Vector3 Vec3Addition(const Vector3& a, Vector3& b);
+
+//Vector3同士の減算
 Vector3 Vec3Subtraction(Vector3& a, Vector3& b);
 
+//Vector3同士の乗算
 Vector3 Vec3Multiplication(Vector3& a, Vector3& b);
+
+//Vector3とfloatの乗算
+Vector3 Vec3FloatMultiplication(const Vector3& a, const float& b);
 
 //ベクトル変換
 Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
