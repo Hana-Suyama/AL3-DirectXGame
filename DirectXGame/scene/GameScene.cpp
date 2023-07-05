@@ -155,7 +155,7 @@ void GameScene::Update() {
 	}
 
 	CheckAllCollisions();
-
+	
 	// デバッグカメラの更新
 	debugCamera_->Update();
 #ifdef _DEBUG
