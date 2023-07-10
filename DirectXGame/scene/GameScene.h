@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Audio.h"
 #include "DirectXCommon.h"
@@ -8,6 +8,8 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include <Player.h>
+#include <memory>
 
 /// <summary>
 /// ゲームシーン
@@ -44,6 +46,18 @@ private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
+
+	//テクスチャハンドル
+	uint32_t textureHandle_ = 0;
+
+	//3Dモデル
+	std::unique_ptr<Model> model_ = nullptr;
+
+	//ビュープロジェクション
+	ViewProjection viewProjection_;
+
+	//自キャラ
+	std::unique_ptr<Player> player_;
 
 	/// <summary>
 	/// ゲームシーン用
