@@ -10,6 +10,9 @@
 #include "WorldTransform.h"
 #include <Player.h>
 #include <memory>
+#include <Skydome.h>
+#include <DebugCamera.h>
+#include <Ground.h>
 
 /// <summary>
 /// ゲームシーン
@@ -47,17 +50,34 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
+	//デバッグカメラ
+	DebugCamera* debugCamera_ = nullptr;
+
+	//天球
+	std::unique_ptr<Skydome> skydome_;
+
+	//地面
+	std::unique_ptr<Ground> ground_;
+
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0;
 
 	//3Dモデル
 	std::unique_ptr<Model> model_ = nullptr;
 
+	//天球3Dモデル
+	std::unique_ptr<Model> modelSkydome_ = nullptr;
+
+	// 地面3Dモデル
+	std::unique_ptr<Model> modelGround_ = nullptr;
+
 	//ビュープロジェクション
 	ViewProjection viewProjection_;
 
 	//自キャラ
 	std::unique_ptr<Player> player_;
+
+	bool isDebugCameraActive_ = false;
 
 	/// <summary>
 	/// ゲームシーン用
