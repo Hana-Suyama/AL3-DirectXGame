@@ -11,6 +11,12 @@ public:
 
 	void Draw(ViewProjection& viewProjection);
 
+	const WorldTransform& GetWorldTransform() { return worldTransform_; };
+
+	void SetViewProjection(const ViewProjection* viewProjection) {
+		viewProjection_ = viewProjection;
+	}
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -18,4 +24,6 @@ private:
 	Model* model_ = nullptr;
 	//テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+	//カメラのビュープロジェクション
+	const ViewProjection* viewProjection_ = nullptr;
 };

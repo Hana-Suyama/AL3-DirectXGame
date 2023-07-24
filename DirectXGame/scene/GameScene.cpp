@@ -21,6 +21,11 @@ void GameScene::Initialize() {
 	//デバッグカメラの生成
 	debugCamera_ = new DebugCamera(1280, 720);
 
+	//追従カメラの生成
+	followCamera_ = std::make_unique<FollowCamera>();
+	//追従カメラの初期化
+	followCamera_->Initialize();
+
 	//3Dモデルの生成
 	model_.reset(Model::CreateFromOBJ("player", true));
 
@@ -37,6 +42,10 @@ void GameScene::Initialize() {
 	player_ = std::make_unique<Player>();
 	//自キャラの初期化
 	player_->Initialize(model_.get(), textureHandle_);
+	player_->SetViewProjection(&followCamera_->GetViewProjection());
+
+	// 自キャラのワールドトランスフォームを追従カメラにセット
+	followCamera_->SetTarget(&player_->GetWorldTransform());
 
 	//天球の生成
 	skydome_ = std::make_unique<Skydome>();
@@ -61,6 +70,9 @@ void GameScene::Update() {
 
 	//自キャラの更新
 	player_->Update();
+	
+	// 追従カメラの更新
+	followCamera_->Update();
 
 	//天球の更新
 	skydome_->Update();
@@ -89,10 +101,9 @@ void GameScene::Update() {
 		viewProjection_.UpdateMatrix();
 	}
 
-	/*viewProjection_.matView = railCamera_->GetViewProjection().matView;
-	viewProjection_.matProjection = railCamera_->GetViewProjection().matProjection;
-	viewProjection_.TransferMatrix();*/
-
+	viewProjection_.matView = followCamera_->GetViewProjection().matView;
+	viewProjection_.matProjection = followCamera_->GetViewProjection().matProjection;
+	viewProjection_.TransferMatrix();
 
 }
 
