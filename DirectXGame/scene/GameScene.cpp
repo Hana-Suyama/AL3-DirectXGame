@@ -28,6 +28,10 @@ void GameScene::Initialize() {
 
 	//3Dモデルの生成
 	model_.reset(Model::CreateFromOBJ("player", true));
+	modelFighterBody_.reset(Model::CreateFromOBJ("Body", true));
+	modelFighterHead_.reset(Model::CreateFromOBJ("Head", true));
+	modelFighterL_arm_.reset(Model::CreateFromOBJ("LeftArm", true));
+	modelFighterR_arm_.reset(Model::CreateFromOBJ("RightArm", true));
 
 	//天球3Dモデルの生成
 	modelSkydome_.reset(Model::CreateFromOBJ("skydome", true));
@@ -40,8 +44,9 @@ void GameScene::Initialize() {
 
 	//自キャラの生成
 	player_ = std::make_unique<Player>();
+
 	//自キャラの初期化
-	player_->Initialize(model_.get(), textureHandle_);
+	player_->Initialize(modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(), modelFighterR_arm_.get());
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
 
 	// 自キャラのワールドトランスフォームを追従カメラにセット

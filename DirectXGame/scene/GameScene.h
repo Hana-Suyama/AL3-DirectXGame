@@ -68,6 +68,10 @@ private: // メンバ変数
 
 	//3Dモデル
 	std::unique_ptr<Model> model_ = nullptr;
+	std::unique_ptr<Model> modelFighterBody_ = nullptr;
+	std::unique_ptr<Model> modelFighterHead_ = nullptr;
+	std::unique_ptr<Model> modelFighterL_arm_ = nullptr;
+	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
 
 	//天球3Dモデル
 	std::unique_ptr<Model> modelSkydome_ = nullptr;
