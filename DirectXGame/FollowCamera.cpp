@@ -10,7 +10,7 @@ void FollowCamera::Update() {
 	//追従対象がいれば
 	if (target_) {
 		//追従対象からカメラへのオフセット
-		Vector3 offset = {0.0f, 2.0f, -10.0f};
+		Vector3 offset = {0.0f, 2.0f, -30.0f};
 
 		Matrix4x4 rotateMatrix = MakeRotateYMatrix(viewProjection_.rotation_.y);
 

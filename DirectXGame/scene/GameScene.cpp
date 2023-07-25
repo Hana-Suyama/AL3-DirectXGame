@@ -36,6 +36,7 @@ void GameScene::Initialize() {
 	modelEnemyHead_.reset(Model::CreateFromOBJ("EnemyHead", true));
 	modelEnemyL_arm_.reset(Model::CreateFromOBJ("EnemyLeftArm", true));
 	modelEnemyR_arm_.reset(Model::CreateFromOBJ("EnemyRightArm", true));
+	modelFighterHummer_.reset(Model::CreateFromOBJ("Hummer", true));
 
 	//天球3Dモデルの生成
 	modelSkydome_.reset(Model::CreateFromOBJ("skydome", true));
@@ -52,7 +53,7 @@ void GameScene::Initialize() {
 	//自キャラモデル
 	std::vector<Model*> playerModels = {
 	    modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),
-	    modelFighterR_arm_.get()};
+	    modelFighterR_arm_.get(), modelFighterHummer_.get()};
 
 	//自キャラの初期化
 	player_->Initialize(playerModels);
