@@ -14,6 +14,7 @@
 #include <DebugCamera.h>
 #include <Ground.h>
 #include <FollowCamera.h>
+#include <Enemy.h>
 
 /// <summary>
 /// ゲームシーン
@@ -73,6 +74,11 @@ private: // メンバ変数
 	std::unique_ptr<Model> modelFighterL_arm_ = nullptr;
 	std::unique_ptr<Model> modelFighterR_arm_ = nullptr;
 
+	std::unique_ptr<Model> modelEnemyBody_ = nullptr;
+	std::unique_ptr<Model> modelEnemyHead_ = nullptr;
+	std::unique_ptr<Model> modelEnemyL_arm_ = nullptr;
+	std::unique_ptr<Model> modelEnemyR_arm_ = nullptr;
+
 	//天球3Dモデル
 	std::unique_ptr<Model> modelSkydome_ = nullptr;
 
@@ -84,6 +90,9 @@ private: // メンバ変数
 
 	//自キャラ
 	std::unique_ptr<Player> player_;
+
+	//敵
+	std::unique_ptr<Enemy> enemy_;
 
 	bool isDebugCameraActive_ = false;
 

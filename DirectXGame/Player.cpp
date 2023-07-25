@@ -6,18 +6,21 @@
 #include <MyMath.h>
 #include <imgui.h>
 
-void Player::Initialize(Model* modelBody, Model* modelHead, Model* modelL_arm, Model* modelR_arm) {
+void Player::Initialize(const std::vector<Model*>& models) {
+
+	//基底クラスの初期化
+	BaseCharacter::Initialize(models);
 
 	//ぬるぽチェック
-	assert(modelBody);
-	assert(modelHead);
-	assert(modelL_arm);
-	assert(modelR_arm);
+	assert(models[0]);
+	assert(models[1]);
+	assert(models[2]);
+	assert(models[3]);
 
-	modelBody_ = modelBody;
-	modelHead_ = modelHead;
-	modelL_arm_ = modelL_arm;
-	modelR_arm_ = modelR_arm;
+	modelBody_ = models[0];
+	modelHead_ = models[1];
+	modelL_arm_ = models[2];
+	modelR_arm_ = models[3];
 
 	//textureHandle_ = textureHandle;
 	
@@ -77,10 +80,11 @@ void Player::Update() {
 }
 
 void Player::Draw(ViewProjection& viewProjection) {
-	modelBody_->Draw(worldTransformBody_, viewProjection);
-	modelHead_->Draw(worldTransformHead_, viewProjection);
-	modelL_arm_->Draw(worldTransformL_arm_, viewProjection);
-	modelR_arm_->Draw(worldTransformR_arm_, viewProjection);
+	models_[0] ->Draw(worldTransformBody_, viewProjection);
+	models_[1] ->Draw(worldTransformHead_, viewProjection);
+	models_[2] ->Draw(worldTransformL_arm_, viewProjection);
+	models_[3] ->Draw(worldTransformR_arm_, viewProjection);
+
 }
 
 void Player::InitializeFloatingGimmick() {

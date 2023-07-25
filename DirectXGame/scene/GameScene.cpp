@@ -32,6 +32,10 @@ void GameScene::Initialize() {
 	modelFighterHead_.reset(Model::CreateFromOBJ("Head", true));
 	modelFighterL_arm_.reset(Model::CreateFromOBJ("LeftArm", true));
 	modelFighterR_arm_.reset(Model::CreateFromOBJ("RightArm", true));
+	modelEnemyBody_.reset(Model::CreateFromOBJ("EnemyBody", true));
+	modelEnemyHead_.reset(Model::CreateFromOBJ("EnemyHead", true));
+	modelEnemyL_arm_.reset(Model::CreateFromOBJ("EnemyLeftArm", true));
+	modelEnemyR_arm_.reset(Model::CreateFromOBJ("EnemyRightArm", true));
 
 	//天球3Dモデルの生成
 	modelSkydome_.reset(Model::CreateFromOBJ("skydome", true));
@@ -45,12 +49,28 @@ void GameScene::Initialize() {
 	//自キャラの生成
 	player_ = std::make_unique<Player>();
 
+	//自キャラモデル
+	std::vector<Model*> playerModels = {
+	    modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),
+	    modelFighterR_arm_.get()};
+
 	//自キャラの初期化
-	player_->Initialize(modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(), modelFighterR_arm_.get());
+	player_->Initialize(playerModels);
 	player_->SetViewProjection(&followCamera_->GetViewProjection());
 
 	// 自キャラのワールドトランスフォームを追従カメラにセット
 	followCamera_->SetTarget(&player_->GetWorldTransform());
+	
+	// 敵の生成
+	enemy_ = std::make_unique<Enemy>();
+
+	// 敵モデル
+	std::vector<Model*> enemyModels = {
+	    modelEnemyBody_.get(), modelEnemyHead_.get(), modelEnemyL_arm_.get(),
+	    modelEnemyR_arm_.get()};
+
+	// 敵の初期化
+	enemy_->Initialize(enemyModels);
 
 	//天球の生成
 	skydome_ = std::make_unique<Skydome>();
@@ -75,6 +95,9 @@ void GameScene::Update() {
 
 	//自キャラの更新
 	player_->Update();
+
+	//敵の更新
+	enemy_->Update();
 	
 	// 追従カメラの更新
 	followCamera_->Update();
@@ -147,6 +170,9 @@ void GameScene::Draw() {
 
 	//自キャラの描画
 	player_->Draw(viewProjection_);
+
+	//敵の描画
+	enemy_->Draw(viewProjection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

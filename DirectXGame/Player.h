@@ -1,15 +1,16 @@
 ﻿#pragma once
 #include <WorldTransform.h>
 #include <Model.h>
+#include <BaseCharacter.h>
 
-class Player {
+class Player : public BaseCharacter {
 public:
 
-	void Initialize(Model* modelBody, Model* modelHead, Model* modelL_arm, Model* modelR_arm);
+	void Initialize(const std::vector<Model*>& models) override;
 
-	void Update();
+	void Update() override;
 
-	void Draw(ViewProjection& viewProjection);
+	void Draw(ViewProjection& viewProjection) override;
 
 	const WorldTransform& GetWorldTransform() { return worldTransform_; };
 
