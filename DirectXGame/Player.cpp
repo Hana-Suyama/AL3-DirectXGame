@@ -5,11 +5,19 @@
 #include <math.h>
 #include <MyMath.h>
 #include <imgui.h>
+#include <GlobalVariables.h>
 
 void Player::Initialize(const std::vector<Model*>& models) {
 
 	//基底クラスの初期化
 	BaseCharacter::Initialize(models);
+
+	GlobalVariables* globalVariavles = GlobalVariables::GetInstance();
+	const char* groupName = "Player";
+	//グループを追加
+	GlobalVariables::GetInstance()->CreateGroup(groupName);
+
+	globalVariavles->SetValue(groupName, "Test", 90);
 
 	//ぬるぽチェック
 	assert(models[0]);
