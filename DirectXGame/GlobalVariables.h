@@ -24,6 +24,12 @@ public:
 	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// ファイルに書き出し
+	/// </summary>
+	/// <param name="groupName">グループ</param>
+	void SaveFile(const std::string& groupName);
+
 private:
 
 	GlobalVariables() = default;
@@ -44,4 +50,7 @@ private:
 
 	//全データ
 	std::map<std::string, Group> datas_;
+
+	//グローバル変数の保存先ファイルパス
+	const std::string kDirectoryPath = "Resource/GlobalVariables/";
 };
