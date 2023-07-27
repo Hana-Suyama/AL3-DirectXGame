@@ -38,6 +38,9 @@ public:
 	//攻撃行動更新
 	void BehaviorAttackUpdate();
 
+	//調整項目の適用
+	void ApplyGlobalVariables();
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;

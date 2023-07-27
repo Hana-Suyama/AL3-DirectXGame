@@ -17,8 +17,6 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	//グループを追加
 	GlobalVariables::GetInstance()->CreateGroup(groupName);
 
-	globalVariavles->SetValue(groupName, "Test", 90);
-
 	//ぬるぽチェック
 	assert(models[0]);
 	assert(models[1]);
@@ -49,11 +47,21 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	worldTransformHummer_.parent_ = &worldTransformBody_;
 
 	InitializeFloatingGimmick();
-
-
+	
+	globalVariavles->AddItem(groupName, "Head Translation", worldTransformHead_.translation_);
+	globalVariavles->AddItem(groupName, "ArmL Translation", worldTransformL_arm_.translation_);
+	globalVariavles->AddItem(groupName, "ArmR Translation", worldTransformR_arm_.translation_);
 }
 
 void Player::Update() {
+
+	// ゲームパッドの状態を得る変数(XINPUT)
+	XINPUT_STATE joyState{};
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		if (joyState.Gamepad.bRightTrigger) {
+			ApplyGlobalVariables();
+		}
+	}
 
 	if (behaviorRequest_) {
 		//振る舞いを変更する
@@ -205,4 +213,12 @@ void Player::BehaviorAttackUpdate() {
 		behaviorRequest_ = Behavior::kRoot;
 	}
 
+}
+
+void Player::ApplyGlobalVariables() {
+	GlobalVariables* globalVariables = GlobalVariables::GetInstance();
+	const char* groupName = "Player";
+	worldTransformHead_.translation_ = globalVariables->GetVector3Value(groupName, "Head Translation");
+	worldTransformL_arm_.translation_ = globalVariables->GetVector3Value(groupName, "ArmL Translation");
+	worldTransformR_arm_.translation_ = globalVariables->GetVector3Value(groupName, "ArmR Translation");
 }
